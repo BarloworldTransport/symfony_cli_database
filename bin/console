@@ -1,0 +1,46 @@
+#!/usr/bin/env php
+
+<?php 
+defined('__ROOT__') || define('__ROOT__', dirname(realpath(__FILE__)) . DIRECTORY_SEPARATOR);
+require_once __DIR__ . DIRECTORY_SEPARATOR . '../vendor/autoload.php'; 
+
+/**
+ *
+ * From: http://php.net/manual/en/function.scandir.php#110570
+ * @author mmda dot nl at gmail dot com <mmda.nl@gmail.com>
+ * @modifiedby Feighen OOsterbroek <feighen@gmail.com>
+*/
+function dirToArray($dir)
+{ 
+   $result = array(); 
+   $cdir = scandir($dir); 
+   foreach ($cdir as $key => $value) { 
+      if (!in_array($value,array(".",".."))) { 
+         if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
+         { 
+            $result[$value] = dirToArray($dir . DIRECTORY_SEPARATOR . $value); 
+         } else { 
+            $result[] = $dir . '/' . $value; 
+         } 
+      } 
+   } 
+   return $result; 
+} 
+function includeFile($value, $key)
+{
+   if (is_file($value)) {
+      require_once($value);
+   }
+}
+$files = dirToArray(__ROOT__ . '../src/');
+array_walk_recursive($files, 'includeFile');
+
+$files = dirToArray(__ROOT__ . '../tests/');
+array_walk_recursive($files, 'includeFile');
+
+use Symfony\Component\Console\Application; 
+use Commands\SelectCommand as SelectCommand;
+
+$app = new Application();
+$app->add(new SelectCommand());
+$app->run();
