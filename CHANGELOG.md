@@ -14,3 +14,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - initial commit
 - src/output/json.php
   - initial commit
+- docs/usage.md
+  - added section for config

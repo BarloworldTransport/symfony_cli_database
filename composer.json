@@ -3,8 +3,17 @@
     "homepage": "https://github.com/noondaysun/symfony_cli_database",
     "license": "GNU GPL v2.0",
     "name": "BWT/symfony_cli_databases",
+    "autoload": {
+        "psr-4": {
+            "NoondaySun\\Symfony_cli_database\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { 
+            "NoondaySun\\Symfony_cli_database\\": "tests" 
+        }
+    },
     "require": {
-    	"atlas/orm": "~2.0",
     	"php": "^7.0",
     	"symfony/console": "^3.3",
     	"zendframework/zend-config": "^3.1"
@@ -13,7 +22,6 @@
         "pds/skeleton": "^1.0",
         "mayflower/php-codebrowser": "~1.1",
         "pdepend/pdepend" : "2.3.2",
-        "pds/skeleton": "^1.0",
         "phploc/phploc": "*",
         "phpmd/phpmd" : "@stable",
         "phpunit/phpunit": "~5.1",
