@@ -19,7 +19,11 @@ class SelectCommand extends Command
             ->setDescription("Gets data from the database, and outputs to file.")
             ->addArgument('file', InputArgument::REQUIRED, 'What select query do you want to run?')
             ->addArgument('output', InputArgument::REQUIRED, 'What is the file you want to output to?')
-            ->addArgument('values', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'What bound values are required for this query to run (space separated)?');
+            ->addArgument(
+                'values', 
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 
+                'What bound values are required for this query to run (space separated)?'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,12 +34,24 @@ class SelectCommand extends Command
         
         if (is_file($file)) {
             $statement = file_get_contents($file);
+            if (preg_match('/\:\:/', $statement)) {
+                $string = (string)'';
+                foreach ($values as $value) {
+                    $string .= '?,';
+                }
+                $string = substr($string, 0, -1);
+                $statement = preg_replace('/\:\:/', $string, $statement);
+            }
         }
         $select = new select();
         $data = $select->doSelect(
             $statement ?? $file,
             $values ?? array()
         );
+        if (!is_array($data)) {
+            $output->writeln('Failed getting data from mySQL');
+            exit(0);
+        }
         if (strpos($outputfile, 'json')) {
             $out = new json();
         } else {

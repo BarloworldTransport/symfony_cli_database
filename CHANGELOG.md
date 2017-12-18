@@ -16,3 +16,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - initial commit
 - docs/usage.md
   - added section for config
+- common_queries/*
+  - any query that will help
