@@ -19,5 +19,5 @@ LEFT JOIN `udo_location` AS `fpl` ON `fpl`.`ID`=`tl`.`locationFromPoint_id`
 LEFT JOIN `udo_location` AS `fpp` ON `fpp`.`ID`=`fpl`.`parent_id`
 LEFT JOIN `udo_location` AS `tpl` ON `tpl`.`ID`=`tl`.`locationToPoint_id`
 LEFT JOIN `udo_location` AS `tpp` ON `tpp`.`ID`=`tpl`.`parent_id`
-WHERE `cu`.`tradingName` LIKE '%Anglo%' AND IF (!ISNULL(`tl`.`loadingArrivalTime`), `tl`.`loadingArrivalTime`>='?', `tl`.`loadingArrivalETA`>='?')
+WHERE `cu`.`tradingName` LIKE '%Anglo%' AND IF (!ISNULL(`tl`.`loadingArrivalTime`), `tl`.`loadingArrivalTime`>=?, `tl`.`loadingArrivalETA`>=?)
 ORDER BY `Loading Arrival ETA` DESC
